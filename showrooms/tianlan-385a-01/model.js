@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { createMaterials, setBoxUVInMetres } from './materials.js';
 import { createExterior } from './exterior.js';
+import { addLivingFurniture } from './living-furniture.js';
+import { addKitchenDetails, addSalonDisplay, createSalonArtMaterials } from './interior-details.js';
 
 // LACADIERE Tianlan 385A, Building 22 / 01.
 // Plan tracing: x points east/right, z points south/down. Dimensions in metres.
@@ -208,16 +210,6 @@ export function createApartment() {
     }
     return g;
   }
-  function leatherLounge(x,z,yaw=0) {
-    const g=named('实拍参照 · 黑皮管架单椅',x,z,yaw);
-    softBox(0,.43,.04,.75,.20,.76,.09,materials.leather,g,7);
-    const back=softBox(0,.72,-.27,.72,.56,.24,.115,materials.leather,g,7);back.rotation.x=-.23;
-    for(const side of [-1,1]) {
-      pipe([[side*.34,.08,.36],[side*.37,.10,-.32],[side*.38,.58,-.42],[side*.38,.67,.08],[side*.37,.58,.36]],.018,materials.brushedMetal||materials.gold,g,32);
-      softBox(side*.38,.64,.035,.15,.16,.6,.07,materials.leather,g);
-    }
-    solid(x,z,.82,.9);return g;
-  }
   function table(x,z,w,d,h=.75,parent=furniture) {
     round(x,h,z,w,.07,d,Math.min(.22,d/2-.01),materials.stone,parent);
     if(h<.5) {
@@ -253,19 +245,7 @@ export function createApartment() {
     }
   }
   function counter(x,z,w,d,parent=furniture,body=materials.walnut) {box(x,.43,z,w,.86,d,body,parent);box(x,.89,z,w+.02,.065,d+.02,materials.stone,parent);if(parent===furniture&&w*d>.7)solid(x,z,w,d);}
-  function kitchenCabinet(x,z,w,d) {
-    counter(x,z,w,d,furniture,materials.kitchen);
-    if(d>w) {const face=x<13?x+w/2+.012:x-w/2-.012, n=Math.ceil(d/.6);for(let i=0;i<n;i++){const zz=z-d/2+(i+.5)*d/n;box(face,.47,zz,.028,.68,d/n-.055,materials.trim,furniture);box(face+(x<13?.018:-.018),.47,zz,.02,.61,d/n-.12,materials.kitchen,furniture);box(face+(x<13?.045:-.045),.73,zz,.035,.025,.24,materials.gold,furniture);}}
-  }
   function basin(x,z,y=.94,parent=furniture) {round(x,y,z,.44,.11,.34,.09,materials.white,parent);round(x,y+.058,z,.31,.005,.22,.06,materials.water,parent);cyl(x,y+.16,z-.19,.012,.27,materials.bronze,parent);box(x,y+.28,z-.12,.022,.022,.14,materials.bronze,parent);}
-  function kitchenSink(x,z,y=.94) {
-    // A shallow recessed stainless-steel bowl, kept separate from the cabinetry.
-    const steel=materials.brushedMetal||materials.bronze;
-    const surface=mesh(new THREE.CircleGeometry(.19,48),materials.dark,furniture);surface.rotation.x=-Math.PI/2;surface.scale.y=.76;surface.position.set(x,y+.002,z);
-    const ring=mesh(new THREE.TorusGeometry(.19,.009,8,48),steel,furniture);ring.rotation.x=Math.PI/2;ring.scale.y=.76;ring.position.set(x,y+.009,z);
-    pipe([[x,y,z-.21],[x,y+.27,z-.21],[x,y+.32,z-.13],[x,y+.29,z-.015],[x,y+.20,z-.015]],.013,steel,furniture,28);
-    cyl(x+.12,y+.035,z-.20,.025,.07,steel,furniture);box(x+.12,y+.08,z-.17,.018,.02,.08,steel,furniture);
-  }
   function toilet(x,z,yaw=0,parent=furniture) {const g=new THREE.Group();parent.add(g);g.position.set(x,0,z);g.rotation.y=yaw;round(0,.22,.06,.36,.42,.55,.17,materials.white,g);round(0,.45,.07,.39,.08,.57,.17,materials.white,g);box(0,.52,-.21,.39,.55,.16,materials.white,g);}
   function shower(x,z,w,d,parent=furniture) {box(x,.025,z,w,.05,d,materials.bath,parent);box(x,1.1,z+d/2,w,2.2,.018,materials.glass,parent);box(x-w/2,1.1,z,.018,2.2,d,materials.glass,parent);cyl(x,1.25,z-d/2+.06,.014,1.5,materials.bronze,parent);box(x,2.05,z-d/2+.21,.24,.025,.3,materials.bronze,parent);cyl(x,.056,z,.045,.008,materials.bronze,parent);}
   function artwork(axis,fixed,center,width=1.3,height=.85) {
@@ -376,23 +356,7 @@ export function createApartment() {
   shower(.85,18.13,1.4,1.03);toilet(2.55,18.1,Math.PI/2);
   counter(8.33,15.83,.85,.5);basin(8.33,15.83);toilet(9.1,15.77,Math.PI);shower(10.25,15.08,1.15,1.43);
   // Combined Chinese / western kitchen and service suite.
-  kitchenCabinet(11.85,5.17,.65,3.65);kitchenCabinet(14.9,4.96,.65,3.95);
-  box(11.86,2.13,4.23,.66,1.1,1.75,materials.kitchen,furniture);box(14.91,2.13,4.23,.66,1.1,1.75,materials.kitchen,furniture);
-  for(const x of [12.21,14.56])for(const z of [3.7,4.23,4.75])box(x,1.94,z,.035,.26,.025,materials.gold,furniture);
-  box(14.9,1.35,3.35,.67,2.70,.83,materials.kitchen,furniture);
-  for(const y of [.88,1.66]) {
-    softBox(14.548,y,3.35,.035,.67,.63,.016,materials.dark,furniture);
-    box(14.523,y-.055,3.35,.012,.42,.51,materials.glass,furniture);
-    box(14.493,y+.17,3.35,.035,.023,.46,materials.brushedMetal||materials.bronze,furniture);
-    const dial=mesh(new THREE.CylinderGeometry(.044,.044,.023,24),materials.brushedMetal||materials.bronze,furniture);dial.rotation.z=Math.PI/2;dial.position.set(14.513,y+.255,3.35);
-    for(let i=0;i<4;i++)box(14.512,y-.2+i*.09,3.35,.008,.006,.47,materials.darkWood,furniture);
-  }
-  for(const z of [3.25,5.25])box(11.56,1.94,z,.055,1.05,.045,materials.gold,furniture);
-  for(const y of [1.47,2.0,2.5])box(11.62,y,4.25,.28,.04,2.05,materials.gold,furniture);
-  counter(13.34,4.97,.72,2.0,furniture,materials.stone);kitchenSink(11.87,5.4);kitchenSink(13.34,4.55);
-  box(14.88,.94,4.72,.54,.025,.83,materials.dark,furniture);
-  for(const z of [4.49,4.95]) {cyl(14.87,.962,z,.13,.012,materials.bronze);cyl(14.87,.97,z,.085,.012,materials.dark);}
-  box(14.87,1.93,4.72,.62,.20,.85,materials.bronze,furniture);
+  addKitchenDetails({parent:furniture,ceilings,materials,colliders});
   counter(13.35,.35,2.8,.6);basin(12.5,.35);box(11.84,.48,1.82,.64,.96,1.3,materials.white,furniture);
   for(const z of [1.5,2.13]) {const washer=mesh(new THREE.CylinderGeometry(.22,.22,.035,24),materials.dark,furniture);washer.rotation.z=Math.PI/2;washer.position.set(12.18,.48,z);}
   const cot=named('储藏/家政辅助间 · 示意床');round(16.69,.22,1.67,.85,.4,1.65,.05,materials.oak,cot);round(16.69,.46,1.67,.82,.13,1.62,.05,materials.linen,cot);round(16.69,.57,1.1,.66,.12,.4,.07,materials.fabric,cot);solid(16.69,1.67,.85,1.65);
@@ -406,28 +370,25 @@ export function createApartment() {
   counter(16.9,15.74,2.15,.5);vase(17.4,15.74,.93);artwork('x',15.44,16.9,1.5,.9);
   // South salon + formal dining. Generous circulation follows the drawn plan.
   rug(11.58,20.4,5.85,5.25);
-  sofa(13.98,20.05,2.85,-Math.PI/2,'客厅 · 参照照片黑皮主沙发',true,materials.leather);
-  const daybed=sofa(11.32,22.22,3.0,Math.PI,'客厅 · 参照照片奶白卧榻');
-  const lowBack=daybed.getObjectByName('靠背');lowBack.scale.x=.48;lowBack.position.x=-.7;
-  daybed.getObjectByName('右扶手').visible=false;
-  chair(10.1,19.65,-.55,furniture,1.42);leatherLounge(9.64,17.85,-.65);
-  table(11.9,20.08,.95,1.85,.36);table(10.55,20.8,.9,1.55,.41);cyl(11.15,.52,20.25,.38,.055,materials.gold);cyl(11.15,.26,20.25,.045,.5,materials.gold);
-  vase(11.89,19.8,.43);round(11.85,.415,20.37,.31,.045,.24,.01,materials.darkWood);
-  box(8.15,1.3,20.33,.11,2.6,3.5,materials.gold,furniture);box(8.23,1.61,20.33,.13,1.86,3.31,materials.stone,furniture);
+  addLivingFurniture({parent:furniture,materials,colliders});
+  box(8.15,1.3,20.33,.11,2.6,3.5,materials.gold,furniture);box(8.23,1.61,20.33,.13,1.86,3.31,materials.slabStone||materials.stone,furniture);
   box(8.24,.38,20.33,.18,.38,3.35,materials.bronze,furniture);box(8.35,.34,20.33,.025,.2,2.77,materials.dark,furniture);
   box(8.37,.29,20.33,.026,.025,2.69,materials.glow,furniture);box(8.28,.12,20.33,.42,.24,3.5,materials.stone,furniture);
   for(let z=22.21;z<23.25;z+=.07)box(8.19,1.4,z,.07,2.8,.03,materials.trim,furniture);
   softBox(8.46,.43,22.72,.46,.86,.46,.018,materials.stone,furniture);
   for(const [yy,zz,angle] of [[1.18,22.71,Math.PI/2],[1.29,22.76,1.1]]){const ring=mesh(new THREE.TorusGeometry(.23,.035,12,48),materials.dark,furniture);ring.position.set(8.46,yy,zz);ring.rotation.y=angle;ring.scale.y=1.18;}
-  // A shallow illuminated display shelf, visible in the published living-room photograph.
-  box(8.17,1.4,17.65,.14,2.8,1.3,materials.walnut,furniture);
-  for(const y of [.28,.82,1.36,1.9,2.44]) {box(8.37,y,17.65,.47,.035,1.22,materials.stone,furniture);box(8.19,y+.04,17.65,.025,.02,1.15,materials.glow,furniture);vase(8.36,17.65,y+.04);}
+  addSalonDisplay({parent:furniture,materials});
   // Walnut grid panel and two independently generated abstract works.
   box(10.7,1.42,16.36,4.8,2.84,.07,materials.walnut,furniture);
   for(let x=8.3;x<13.2;x+=.8)box(x,1.42,16.41,.025,2.84,.025,materials.darkWood,furniture);
   for(let y=.1;y<2.85;y+=.56)box(10.7,y,16.41,4.8,.025,.025,materials.darkWood,furniture);
-  for(const x of [10.1,11.8]) {artwork('x',16.46,x,1.04,1.45);for(let i=0;i<7;i++){const p=box(x+Math.sin(i*2.3)*.35,1.75+Math.cos(i*2.5)*.5,16.504,.12,.47,.007,i%2?materials.khaki:materials.leafDark,furniture);p.rotation.z=i*.53;}}
-  chair(11.5,17.68,0);chair(12.36,17.68,0);cyl(11.94,.44,17.65,.24,.05,materials.stone);
+  const salonArt=createSalonArtMaterials();
+  for(const [i,x] of [10.1,11.8].entries()) {
+    box(x,1.75,16.46,1.08,1.49,.045,materials.darkWood,furniture);
+    const canvas=mesh(new THREE.PlaneGeometry(1.04,1.45),salonArt[i],furniture);canvas.position.set(x,1.75,16.487);
+    box(x,2.56,16.55,.92,.025,.13,materials.gold,furniture);
+    for(const dx of [-.26,.26])box(x+dx,2.53,16.47,.018,.07,.15,materials.gold,furniture);
+  }
   table(17.43,20.8,1.04,3.05,.76);
   for(const z of [19.78,20.48,21.18,21.88]) {chair(16.64,z,Math.PI/2,furniture,1,materials.caramel);chair(18.22,z,-Math.PI/2,furniture,1,materials.caramel);}
   counter(19.45,20.75,.48,3.7);vase(19.45,19.85,.93);vase(17.43,20.8,.81);
@@ -450,18 +411,15 @@ export function createApartment() {
     for(let x=x1+.08;x<x2;x+=.13)box(x,H-.02,(z1+z2)/2,.08,.075,z2-z1,materials.oak,ceilings);
   }
   diningChandelier(17.43,20.8);pendant(14.05,9.8,1.6);
-  cyl(13.35,2.76,4.95,.015,.65,materials.gold,ceilings);
-  for(let i=0;i<24;i++){const a=i*Math.PI/12,drop=mesh(new THREE.SphereGeometry(.062,8,6),materials.glass,ceilings);drop.position.set(13.35+Math.cos(a)*.38,2.30+(i%3)*.065,4.95+Math.sin(a)*.38);drop.scale.y=1.8;}
-  cyl(13.35,2.38,4.95,.23,.18,materials.glow,ceilings);
   for(const [x,z] of [[3,7.2],[5.1,7.2],[10.2,7.2],[4.5,13.4],[8.3,13.4],[14.5,14.7],[16.9,13.6],[4.2,15.2],[1.9,15.5],[6.1,20.1],[6.1,23.9]])cyl(x,H-.045,z,.055,.025,materials.glow,ceilings);
   ceilings.visible = false;
   const rooms = [
     {id:'entry',name:'入户前厅',x:17.05,z:13.85,yaw:Math.PI/2,description:'独立入户前厅；电梯与公共楼梯未纳入住宅。'},
     {id:'foyer',name:'玄关',x:14.65,z:14.8,yaw:Math.PI,description:'从玄关向南进入客厅，向北连接家庭餐厅。'},
-    {id:'living',name:'客厅',x:15.15,z:20.1,yaw:Math.PI/2,lightAnchor:{x:11.7,z:20.0},description:'南向客厅与品茗 / 宴会厅相连，落地门通往长阳台。'},
+    {id:'living',name:'客厅',x:15.15,z:20.1,yaw:Math.PI/2,pitch:-.12,lightAnchor:{x:11.7,z:20.0},description:'南向客厅与品茗 / 宴会厅相连，落地门通往长阳台。'},
     {id:'dining',name:'品茗 / 宴会厅',x:16.05,z:18.65,yaw:-.55,description:'南侧正式餐区；座椅、茶台与材质为可替换室内陈设。'},
     {id:'family',name:'家庭厅 / 餐厅',x:12.35,z:11.6,yaw:-.75,description:'家庭餐厅与中西厨相接。'},
-    {id:'kitchen',name:'中西厨',x:13.4,z:6.7,yaw:0,description:'保留中央工作台与两侧操作台布局。'},
+    {id:'kitchen',name:'中西厨',x:13.4,z:3.25,yaw:Math.PI,pitch:-.08,description:'保留中央工作台与两侧操作台布局。'},
     {id:'utility',name:'家政空间',x:13.4,z:1.85,yaw:0,description:'北侧家政区与独立保姆 / 储藏间。'},
     {id:'bedroom-1',name:'北西套房',x:3.25,z:10.05,yaw:Math.PI/2,description:'独立套房，保留南侧套内卫生间。'},
     {id:'bedroom-2',name:'北中套房',x:4.75,z:10.6,yaw:-.75,description:'独立套房，卫生间在卧室东南侧。'},
@@ -469,7 +427,7 @@ export function createApartment() {
     {id:'master',name:'主卧套房',x:3.75,z:22.6,yaw:1.0,description:'西南主卧连通衣帽区、主卫与南侧阳台。'},
     {id:'dressing',name:'衣帽间',x:6.25,z:23.1,yaw:0,description:'主卧东侧步入式衣帽间。'},
     {id:'master-bath',name:'主卫',x:2.65,z:16.45,yaw:Math.PI/2,description:'双台盆、浴缸与独立淋浴 / 卫生区。'},
-    {id:'balcony',name:'约20米景观阳台',x:13.65,z:25.25,yaw:0,description:'按户型图南侧连续阳台描摹，长度约19.9米。'},
+    {id:'balcony',name:'约20米景观阳台',x:13.65,z:25.25,yaw:Math.PI,pitch:-.08,description:'按户型图南侧连续阳台描摹，长度约19.9米。'},
   ];
   const bounds={minX:-.15,maxX:20.05,minZ:-.15,maxZ:26.55};
   const entry={x:17.05,z:13.85,yaw:Math.PI/2};
@@ -500,5 +458,11 @@ export function createApartment() {
   }
   batch(architecture);batch(furniture);batch(ceilings);
   const exterior=createExterior(); exterior.name='现场实拍参照的窗外布景'; exterior.visible=false; group.add(exterior);
-  return {group,ceilings,furniture,colliders,rooms,bounds,entry,metrics,walkable,exterior};
+  // Soft window fill for illustration, not a surveyed daylight calculation.
+  const windowLights=[
+    {position:[13.9,1.8,23.32],width:10.7,height:2.25,yaw:0,day:2.3,warm:.28},
+    {position:[11.58,1.82,4.9],width:2.7,height:1.4,yaw:-Math.PI/2,day:1.65,warm:.20},
+    {position:[2.8,1.8,24.72],width:3.4,height:2.1,yaw:0,day:1.25,warm:.20},
+  ];
+  return {group,ceilings,furniture,colliders,rooms,bounds,entry,metrics,walkable,exterior,windowLights};
 }

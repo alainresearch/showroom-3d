@@ -101,48 +101,53 @@ function surface(size, metres, sampler, normalStrength = 1, rotation = 0) {
   return { maps, metres };
 }
 
-function createStone() {
-  return surface(512, [2.6, 2.6], (u, v, x, y, out) => {
+function createStone({ slab = false } = {}) {
+  return surface(512, slab ? [2.8, 2.8] : [3.4, 3.4], (u, v, x, y, out) => {
     const warpX = fbm(u, v, 71, 2, 3) - .5;
     const warpY = fbm(u + .17, v + .29, 203, 2, 3) - .5;
-    const fineWarp = noise(u, v, 23, 23, 51) - .5;
-    // Long oblique mineral seams: no closed cellular / Voronoi crack network.
-    // Each seam has a soft mineral plume and intermittent, near-parallel splits.
-    const phase = u * 3 + v * 2 + warpX * .72 + warpY * .46 + fineWarp * .045;
+    const fineWarp = fbm(u, v, 51, 16, 3) - .5;
+    // Broad, irregular Calacatta-like paths with short split veins. Keeping
+    // the path frequencies integral makes the original texture tile cleanly;
+    // the second sparse path prevents a row of identical diagonal stripes.
+    const phase = u * 3 + v * 2 + warpX * 1.38 + warpY * .82 + fineWarp * .19;
     const distance = Math.abs(fract(phase + .5) - .5);
     const mineral = noise(u, v, 7, 7, 992);
     const mask = .24 + .76 * noise(u, v, 5, 5, 46);
-    const width = .005 + mineral * mineral * .022;
-    const main = Math.exp(-Math.pow(distance / width, 1.45)) * mask;
-    const halo = Math.exp(-Math.pow(distance / (width * 4.8), 1.25)) * mask;
-    const splitOffset = (noise(u, v, 7, 5, 1307) - .5) * .22;
-    const splitDistance = Math.abs(fract(phase + splitOffset + .5) - .5);
-    const splitGate = smooth(clamp((noise(u, v, 4, 7, 1411) - .43) * 4));
+    const width = .004 + mineral * mineral * .021;
+    const main = Math.exp(-Math.pow(distance / width, 1.4)) * mask;
+    const halo = Math.exp(-Math.pow(distance / (width * 4.2), 1.25)) * mask * (.58 + .42 * noise(u, v, 43, 43, 1201));
+    const splitOffset = (noise(u, v, 7, 5, 1307) - .5) * .30;
+    const splitDistance = Math.abs(fract(phase + splitOffset + fineWarp * .13 + .5) - .5);
+    const splitGate = smooth(clamp((noise(u, v, 4, 7, 1411) - .40) * 4));
     const branches = Math.exp(-Math.pow(splitDistance / .006, 1.3)) * splitGate;
-    const mineralDust = noise(u, v, 37, 37, 1483);
-    const hairDistance = Math.abs(fract(phase + fineWarp * .09 + .5) - .5);
-    const hair = Math.exp(-Math.pow(hairDistance / .004, 1.2)) * mineralDust * .4;
-    const gold = smooth(clamp((mineral - .45) * 3));
+    const crossPhase = u + v * 3 + warpX * .72 - warpY * 1.30 + fineWarp * .24;
+    const crossDistance = Math.abs(fract(crossPhase + .5) - .5);
+    const crossGate = smooth(clamp((noise(u, v, 5, 3, 1573) - (slab ? .34 : .50)) * 5));
+    const cross = Math.exp(-Math.pow(crossDistance / .009, 1.3)) * crossGate;
+    const hairDistance = Math.abs(fract(phase + fineWarp * .12 + .5) - .5);
+    const hair = Math.exp(-Math.pow(hairDistance / .004, 1.2)) * noise(u, v, 37, 37, 1483) * .4;
+    const gold = smooth(clamp((mineral - .47) * 3.6));
     const cloud = fbm(u + .41, v + .31, 643, 2, 3);
-    const depth = clamp(main * .52 + halo * .13 + hair * .24 + branches * .25);
+    const depth = clamp(main * .80 + halo * .14 + hair * .25 + branches * .38 + cross * (slab ? .56 : .34));
     const warm = gold * depth;
-    const grain = (hash(x, y, 703) - .5) * 1.5;
-    out[0] = 245 - depth * 90 - warm * 3 - cloud * 5 + grain;
-    out[1] = 242 - depth * 91 - warm * 15 - cloud * 5 + grain;
-    out[2] = 234 - depth * 82 - warm * 31 - cloud * 5 + grain;
-    out[3] = .5 + (cloud - .5) * .012 + (hash(x, y, 991) - .5) * .014;
-    out[4] = .24 + cloud * .045 + depth * .055;
-  }, 2.0);
+    const grain = (hash(x, y, 703) - .5) * .7;
+    out[0] = 246 - depth * 116 + warm * 15 - cloud * 4 + grain;
+    out[1] = 245 - depth * 116 + warm * 2 - cloud * 4 + grain;
+    out[2] = 241 - depth * 110 - warm * 20 - cloud * 4 + grain;
+    // Veins are pigmentation within polished stone, not raised cracks.
+    out[3] = .5 + (cloud - .5) * .008 + (hash(x, y, 991) - .5) * .006;
+    out[4] = (slab ? .20 : .23) + cloud * .035 + depth * .025;
+  }, 1.6);
 }
 
-function createWood(baseColour = [143, 100, 67]) {
+function createWood(baseColour = [145, 108, 78]) {
   return surface(512, [.8, 2.8], (u, v, x, y, out) => {
     const warp = (noise(u, v, 5, 2, 501) - .5) * 1.25;
     const growth = Math.sin(TAU * (u * 28 + warp));
     const fine = Math.sin(TAU * (u * 94 + warp * 1.4 + noise(u, v, 17, 4, 502) * .34));
     const pore = Math.pow(clamp(noise(u, v, 128, 8, 503)), 4);
     const broad = noise(u, v, 6, 1, 504) - .5;
-    const variation = growth * 5 + fine * 2.5 + broad * 19 - pore * 15;
+    const variation = growth * 3.8 + fine * 1.8 + broad * 16 - pore * 10;
     const grain = (hash(x, y, 505) - .5) * 2;
     out[0] = baseColour[0] + variation + grain;
     out[1] = baseColour[1] + variation * .79 + grain;
@@ -153,12 +158,12 @@ function createWood(baseColour = [143, 100, 67]) {
 }
 
 function createWeave() {
-  return surface(256, [.24, .24], (u, v, x, y, out) => {
+  return surface(256, [.096, .096], (u, v, x, y, out) => {
     const pitch = 8, warp = .5 + .5 * Math.cos(TAU * x / pitch), weft = .5 + .5 * Math.cos(TAU * y / pitch);
     const over = (Math.floor(x / pitch) + Math.floor(y / pitch)) % 2;
     const yarn = over ? warp * .66 + weft * .34 : weft * .66 + warp * .34;
     const fuzz = hash(x, y, 301), thread = hash(Math.floor(x / pitch), Math.floor(y / pitch), 302);
-    const tone = (yarn - .5) * 10 + (fuzz - .5) * 5 + (thread - .5) * 3;
+    const tone = (yarn - .5) * 6 + (fuzz - .5) * 2 + (thread - .5) * 2;
     out[0] = 246 + tone; out[1] = 243 + tone; out[2] = 235 + tone;
     out[3] = yarn * .25 + fuzz * .05;
     out[4] = .91 + fuzz * .08;
@@ -166,7 +171,7 @@ function createWeave() {
 }
 
 function createLeather() {
-  return surface(256, [.38, .38], (u, v, x, y, out) => {
+  return surface(256, [.12, .12], (u, v, x, y, out) => {
     const cellU = u * 40, cellV = v * 40, ix = Math.floor(cellU), iy = Math.floor(cellV);
     let nearest = 10, second = 10;
     for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) {
@@ -180,10 +185,10 @@ function createLeather() {
     const crease = Math.exp(-Math.max(0, second - nearest) * 27);
     const wrinkle = noise(u, v, 5, 11, 603);
     const pore = hash(x, y, 604);
-    const tone = (wrinkle - .5) * 12 - crease * 6 + (pore - .5) * 2;
+    const tone = (wrinkle - .5) * 5 - crease * 3 + (pore - .5) * 1.2;
     out[0] = 239 + tone; out[1] = 237 + tone; out[2] = 231 + tone;
-    out[3] = .5 - crease * .15 + wrinkle * .12 + pore * .02;
-    out[4] = .39 + wrinkle * .1 + crease * .08;
+    out[3] = .5 - crease * .08 + wrinkle * .045 + pore * .012;
+    out[4] = .36 + wrinkle * .08 + crease * .045;
   }, 2.2);
 }
 
@@ -193,7 +198,7 @@ function createRug() {
     const tuft = hash(Math.floor(x / 2), Math.floor(y / 2), 801);
     const fuzz = hash(x, y, 802), variation = noise(u, v, 8, 8, 803);
     const tone = (stripe - .5) * 6 + (tuft - .5) * 10 + (variation - .5) * 7;
-    out[0] = 232 + tone; out[1] = 225 + tone; out[2] = 211 + tone;
+    out[0] = 239 + tone; out[1] = 236 + tone; out[2] = 227 + tone;
     out[3] = .45 + stripe * .13 + tuft * .15 + fuzz * .035;
     out[4] = .96 + fuzz * .04;
   }, 2.1);
@@ -213,9 +218,9 @@ function createHerringbone() {
     const edgeDistance = Math.min(across, 1 - across, along, 4 - along);
     const seam = 1 - smooth(clamp(edgeDistance / .018));
     const variation = (board - .5) * 22 + fibre * 3 + fine * 1.3;
-    out[0] = 191 + variation - seam * 27;
-    out[1] = 160 + variation * .87 - seam * 26;
-    out[2] = 120 + variation * .68 - seam * 22;
+    out[0] = 195 + variation - seam * 23;
+    out[1] = 172 + variation * .87 - seam * 22;
+    out[2] = 138 + variation * .68 - seam * 19;
     out[3] = .5 + fibre * .012 - seam * .07;
     out[4] = .46 + board * .075 + seam * .1;
   }, 2.2, Math.PI / 4);
@@ -223,7 +228,7 @@ function createHerringbone() {
 
 let cached;
 function textures() {
-  if (!cached) cached = { stone: createStone(), wood: createWood(), oak: createWood([194, 166, 128]), weave: createWeave(), leather: createLeather(), rug: createRug(), parquet: createHerringbone() };
+  if (!cached) cached = { stone: createStone(), slabStone: createStone({ slab: true }), wood: createWood(), oak: createWood([194, 166, 128]), weave: createWeave(), leather: createLeather(), rug: createRug(), parquet: createHerringbone() };
   return cached;
 }
 
@@ -242,14 +247,14 @@ export function createMaterials() {
   const p = textures();
   const cloth = (colour, normal = .3) => material(colour, 1, 0, p.weave, { normalScale: new THREE.Vector2(normal, normal) });
   const wood = (colour = '#ffffff') => material(colour, 1, 0, p.wood, { normalScale: new THREE.Vector2(.16, .16) });
-  const stone = () => material('#ffffff', 1, 0, p.stone, { normalScale: new THREE.Vector2(.06, .06), envMapIntensity: .8 });
+  const stone = (pack = p.stone) => material('#ffffff', 1, 0, pack, { normalScale: new THREE.Vector2(.06, .06), envMapIntensity: .8 });
   const leather = colour => material(colour, 1, 0, p.leather, { normalScale: new THREE.Vector2(.35, .35), envMapIntensity: .8 });
   const materials = {
-    wall: material('#eeeae2', .9), trim: material('#e1d9ca', .62), stone: stone(), bath: stone(),
+    wall: material('#eeeae2', .9), trim: material('#e1d9ca', .62), stone: stone(), slabStone: stone(p.slabStone), bath: stone(),
     walnut: wood(), darkWood: wood('#80756b'), oak: material('#ffffff', 1, 0, p.oak, { normalScale: new THREE.Vector2(.16, .16) }),
-    fabric: cloth('#e8decd'), linen: cloth('#fffdf4', .18),
+    fabric: cloth('#eee6d8'), linen: cloth('#fffef9', .18),
     bronze: material('#75614a', .3, .78), dark: material('#222724', .42), light: material('#fff8e8', .5),
-    carpet: material('#d4c9b5', 1, 0, p.rug, { normalScale: new THREE.Vector2(.4, .4) }),
+    carpet: material('#ded7ca', 1, 0, p.rug, { normalScale: new THREE.Vector2(.4, .4) }),
     carpetLight: material('#fffdf6', 1, 0, p.rug, { normalScale: new THREE.Vector2(.4, .4) }),
     leaf: material('#586c44', .87), leafDark: material('#344d35', .91), pot: material('#a59d8b', .85),
     water: new THREE.MeshPhysicalMaterial({ color:'#aebfba', transparent:true, opacity:.75, roughness:.12, metalness:.03, clearcoat:.4 }),
@@ -257,7 +262,7 @@ export function createMaterials() {
     glow: new THREE.MeshStandardMaterial({ color:'#fff1d0', emissive:'#ffdb9e', emissiveIntensity:.72 }),
     art: material('#a89c84', .98), white: material('#f6f3ec', .24), terrace: material('#b6ac98', .86),
     leather: leather('#292825'), caramel: leather('#ad7049'), khaki: cloth('#a28e6a'),
-    kitchen: material('#f0eee5', .36), rust: cloth('#b77750'), gold: material('#bc9b62', .24, .85),
+    kitchen: material('#f4f2ec', .34), rust: cloth('#b77750'), gold: material('#bc9b62', .24, .85),
     herringboneOak: material('#ffffff', 1, 0, p.parquet, { normalScale: new THREE.Vector2(.25, .25) }),
     wallpaper: cloth('#e5dfd3', .08), brushedMetal: material('#c5c8c4', .22, .92),
     smokeGlass: new THREE.MeshPhysicalMaterial({ color:'#685347', transparent:true, opacity:.68, roughness:.13, metalness:.06, side:THREE.DoubleSide, depthWrite:false }),

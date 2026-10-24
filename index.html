@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#eae7e0" />
+  <meta name="description" content="根据户型图与样板间影像逐步还原的可探索三维空间。" />
+  <title>Showroom · 样板间空间库</title>
+  <link rel="stylesheet" href="./style.css" />
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.min.js","three/addons/":"./vendor/"}}</script>
+</head>
+<body>
+  <main id="viewer" aria-label="三维样板间"></main>
+  <div id="loading" role="status"><span class="loading-mark">S<span>R</span></span><p>正在打开空间</p><span class="loading-line"></span></div>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="样板间空间库首页">SHOWROOM<span>空间档案 / 001</span></a>
+    <div class="view-switch" role="group" aria-label="查看方式">
+      <button data-mode="overview" class="active" aria-pressed="true"><span>◫</span> 全屋俯览</button>
+      <button data-mode="walk" aria-pressed="false"><span>↗</span> 室内漫游</button>
+    </div>
+    <button class="icon-button" id="info-button" aria-label="项目资料与还原说明">i</button>
+  </header>
+  <aside class="project-panel" id="project-panel">
+    <div class="eyebrow">SPACE STUDY <span id="case-number">01</span></div>
+    <h1 id="project-title">天览</h1>
+    <p class="subtitle" id="project-subtitle">385A · 22 栋 01 号房</p>
+    <div class="facts"><span id="area-label">385<small>㎡ 建筑面积</small></span><span id="layout-label">3 厅 · 4 房</span></div>
+    <div class="rule"></div>
+    <p class="intro">换个角度，看见空间。<br />从全屋关系，走到生活细节。</p>
+    <button class="primary-button" id="start-walk">走进样板间 <span>↗</span></button>
+    <div class="project-select-wrap" hidden><label for="project-select">空间档案</label><select id="project-select"></select></div>
+    <button class="quiet-link" id="toggle-rooms">选择房间 <span>−</span></button>
+    <nav class="room-list" id="room-list" aria-label="跳转到房间"></nav>
+  </aside>
+  <div class="room-caption" id="room-caption" aria-live="polite"><span>01</span><div><strong>全屋空间</strong><small>拖动旋转 · 滚轮缩放</small></div></div>
+  <aside class="mini-map" id="map-panel"><div class="map-heading"><span>空间导览</span><span>N ↑</span></div><canvas id="map" width="224" height="260" aria-label="户型与当前位置小地图"></canvas><span class="map-footnote">按图纸尺寸建立 · 装修逐步核实</span></aside>
+  <footer class="toolbar">
+    <div class="tool-group"><button id="reset-view" title="回到初始视角">↺ <span>复位</span></button><button id="furniture-toggle" aria-pressed="true">▱ <span>家具</span></button><button id="light-toggle" aria-pressed="false">☼ <span>日光</span></button><button id="map-toggle" aria-pressed="true">⊞ <span>导览</span></button></div>
+    <span class="controls-hint" id="controls-hint">拖动旋转 / 滚轮缩放</span>
+    <button id="fullscreen" title="全屏查看">⛶ <span>全屏</span></button>
+  </footer>
+  <div class="walk-hint" id="walk-hint" hidden><select id="room-jump" aria-label="漫游中切换房间"></select><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 行走</span><span>拖动看向 · Shift 加速</span><button id="lock-pointer">鼠标锁定</button></div>
+  <div id="joystick" class="joystick" aria-label="触屏移动控制" hidden><div id="joystick-knob"></div></div>
+  <div class="crosshair" id="crosshair" hidden></div>
+  <div id="toast" role="status"></div>
+  <dialog id="info-dialog">
+    <div class="dialog-heading"><span class="eyebrow">ABOUT THIS SPACE</span><button id="close-info" class="icon-button" aria-label="关闭说明">×</button></div>
+    <h2>图纸里的空间，<br />正在变得可探索。</h2>
+    <p id="source-summary"></p>
+    <h3>当前还原范围</h3><ul id="assumptions"></ul>
+    <h3>参考来源</h3><div id="source-links"></div>
+    <a class="repo-link" href="https://github.com/alainresearch/showroom-3d" target="_blank" rel="noopener noreferrer">GitHub · showroom-3d ↗</a>
+    <p class="dialog-note">这是空间研究模型。建筑面积含公摊，不等于模型地板面积；未核实的装修细节不代表交付标准。</p>
+  </dialog>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

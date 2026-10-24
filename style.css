@@ -6,3 +6,5 @@
 @media(max-height:850px){.project-panel{top:122px}.intro{display:none}.project-panel h1{font-size:45px;margin-top:13px}.project-panel .facts{margin-top:17px}.project-panel .rule{margin:13px 0}.project-panel .primary-button{margin-top:12px}.project-panel .quiet-link{padding-top:16px}}
 @media(max-width:700px){.project-panel{top:90px;bottom:180px}.project-panel h1{font-size:38px}.walk-hint{gap:8px}.walk-hint select{width:104px;font-size:9px}.walk-hint button{display:none}.room-caption small{max-width:160px;line-height:1.6}.walk-hint>span{display:none}.project-panel .room-list{max-height:180px}}
 @media(max-width:700px){.project-panel{top:82px;left:20px;width:calc(100% - 40px);bottom:auto;max-height:none;pointer-events:none}.project-panel .eyebrow,.project-panel .facts,.project-panel .rule,.project-panel .quiet-link,.project-panel .room-list{display:none}.project-panel h1{font-size:32px;margin:12px 0 7px}.project-panel .subtitle{font-size:9px}.project-panel .primary-button{position:absolute;right:0;top:12px;width:140px;pointer-events:auto;padding:13px}.project-select-wrap{max-width:180px;pointer-events:auto}}
+
+body.walk .project-panel{visibility:hidden}

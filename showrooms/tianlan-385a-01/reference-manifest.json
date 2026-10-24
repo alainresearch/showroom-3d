@@ -1,0 +1,520 @@
+{
+  "project": "LACADIERE 天览 / 385A / 22栋01号房参考研究",
+  "researched_at": "2026-10-24",
+  "scope": "公开样板间图像；本地内部参照；不混用325/650/770户型",
+  "selected_reference_count": 14,
+  "provenance_duplicate_count": 3,
+  "references": [
+    {
+      "id": "sohu-385-living",
+      "role": "主参考",
+      "rooms": [
+        "客厅"
+      ],
+      "image_url": "https://q9.itc.cn/images01/20260523/f3e189cf7e954c5a8653949d0957c095.jpeg",
+      "article_url": "https://www.sohu.com/a/1026704655_121798391",
+      "publisher": "搜狐焦点成都站（第三方推广转载）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "宣传实景合成图（与乐居明确图注同景）",
+      "identity_evidence": "页面图片原名或图注明确385；无直接22栋01/A标记。",
+      "confidence": {
+        "project_385": "高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "黑色圆润低皮沙发、奶油色卧榻、米灰地毯、石材茶几、暖木方格墙板、白灰石材壁炉墙、嵌入射灯及线形空调口。",
+      "same_scene_or_image": "leju-08",
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 6000,
+      "height": 4286,
+      "sha256": "80785db614422300edf2c9cb7ce5d59d09242affc2a7140c080e4bf0c315f73c"
+    },
+    {
+      "id": "sohu-385-view",
+      "role": "主参考",
+      "rooms": [
+        "客厅",
+        "餐厅",
+        "阳台"
+      ],
+      "image_url": "https://q0.itc.cn/q_70/images01/20260422/ecf60cedcac64f8aa56a0e63442c4cc7.jpeg",
+      "article_url": "https://www.sohu.com/a/1013161371_121798391",
+      "publisher": "搜狐焦点成都站（第三方推广转载）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "宣传实景合成图（与乐居明确图注同景）",
+      "identity_evidence": "页面图片原名或图注明确385；无直接22栋01/A标记。",
+      "confidence": {
+        "project_385": "高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "客餐厅长向、白灰金纹石地、石材长餐桌、焦糖椅面黑色U形椅架、黄铜框多玻璃筒吊灯；窗外不用于测量楼层或视野。",
+      "same_scene_or_image": "leju-05",
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 6000,
+      "height": 4000,
+      "sha256": "433159870c376021c18cd835c1869919aaba518ff5d73aa8caa1a8375a256c6c"
+    },
+    {
+      "id": "sohu-385-kitchen",
+      "role": "主参考",
+      "rooms": [
+        "厨房",
+        "家庭厅/餐厅"
+      ],
+      "image_url": "https://q1.itc.cn/images01/20260523/3c4e8115783b4a08a1f9bc1f5935935a.jpeg",
+      "article_url": "https://www.sohu.com/a/1026704655_121798391",
+      "publisher": "搜狐焦点成都站（第三方推广转载）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "发布稿标为样板间实景图（与乐居同图）",
+      "identity_evidence": "页面图片原名或图注明确385；无直接22栋01/A标记。",
+      "confidence": {
+        "project_385": "高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "白色框线柜、黄铜长把手、黑色嵌入厨电、白灰金纹石材岛台、圆槽、晶体水滴簇吊灯、窗前黄铜开放架。",
+      "same_scene_or_image": "leju-09",
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 6000,
+      "height": 4286,
+      "sha256": "a5789160603e969a6f3aa9f75b0747a80b9806f2874cc2028e03c41dcb50b813"
+    },
+    {
+      "id": "leju-10",
+      "role": "主参考",
+      "rooms": [
+        "餐厅"
+      ],
+      "image_url": "https://ess.leju.com/common/photo/16-1-bg9aUIWyQbcUVtceGbMZ8qF9IZTJlX7LMvbHv5Reggfl0BsTDDSeU8ItZnoiueZD0SPN0wZSwRXAgsr9.jpg",
+      "article_url": "https://m.lejucaijing.com/news-7445299291088418651.html",
+      "publisher": "乐居财经（项目推广稿，非已确认的设计师原发）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "发布稿标为样板间实景图",
+      "identity_evidence": "文章同时介绍385和770；本图不单列户型。借助明确385的搜狐同图及新浪现场同景交叉归属，不能单凭文章标题确定。",
+      "confidence": {
+        "project_385": "中高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "灰米色石餐桌、焦糖色座椅、黑框椅脚、细金属开放架；左侧浅绿半透石材边柜及细长玻璃吊灯。",
+      "same_scene_or_image": null,
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 529,
+      "height": 705,
+      "sha256": "c2a963cf0d05458d117354ad1d14e45c0a93c87207d4b5abe13cfb082b4d6d47"
+    },
+    {
+      "id": "leju-11",
+      "role": "主参考",
+      "rooms": [
+        "客厅"
+      ],
+      "image_url": "https://ess.leju.com/common/photo/16-1-qyukPnvw5fvV0BXshmolcjKFArn9LEUmkancva9MYoIVPlsSxEar61pyViIcVWf8zqZOAcIXlfdvaMdO.jpg",
+      "article_url": "https://m.lejucaijing.com/news-7445299291088418651.html",
+      "publisher": "乐居财经（项目推广稿，非已确认的设计师原发）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "发布稿标为样板间实景图",
+      "identity_evidence": "文章同时介绍385和770；本图不单列户型。借助明确385的搜狐同图及新浪现场同景交叉归属，不能单凭文章标题确定。",
+      "confidence": {
+        "project_385": "中高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "石材壁炉与茶几局部、铜色线性框、白竖槽板、黑色环状雕塑、琥珀玻璃花瓶及金色圆边几。",
+      "same_scene_or_image": null,
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 503,
+      "height": 704,
+      "sha256": "5eed589784ce7354c163dd0e859830febd78141d67cbb4bb9df0613e172a0d41"
+    },
+    {
+      "id": "sina-01",
+      "role": "主参考",
+      "rooms": [
+        "阳台"
+      ],
+      "image_url": "https://wx3.sinaimg.cn/middle/006B4J4Agy1ibo19vyxeqj30u60mok09.jpg",
+      "article_url": "https://www.sina.cn/news/detail/5281886017948285.html",
+      "publisher": "蓉城南瓜（新浪展示的微博认证房产博主）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "房产博主发布的现场照片；编辑历史未知",
+      "identity_evidence": "帖子正文明确“天览二期385平样板间”；无22栋01号房或A字样。客厅陈设与发布稿对应。",
+      "confidence": {
+        "project_385": "高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "长阳台、玻璃栏杆深色立柱、木纹纵向条形顶面、编织椅与布艺户外座、近处园林水景。",
+      "same_scene_or_image": null,
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 690,
+      "height": 518,
+      "sha256": "d16847b2bd98c83874c8d779d78816d2d3522bf5d409ffba858f1f9b5e291111"
+    },
+    {
+      "id": "sina-02",
+      "role": "主参考",
+      "rooms": [
+        "客厅",
+        "餐厅"
+      ],
+      "image_url": "https://wx4.sinaimg.cn/middle/006B4J4Agy1ibo1a5ygraj30u60mon2w.jpg",
+      "article_url": "https://www.sina.cn/news/detail/5281886017948285.html",
+      "publisher": "蓉城南瓜（新浪展示的微博认证房产博主）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "房产博主发布的现场照片；编辑历史未知",
+      "identity_evidence": "帖子正文明确“天览二期385平样板间”；无22栋01号房或A字样。客厅陈设与发布稿对应。",
+      "confidence": {
+        "project_385": "高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "从壁炉端看向客餐厅，吊顶灯槽开启，家具可与发布稿对应；现场树木与水景可见。",
+      "same_scene_or_image": null,
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 690,
+      "height": 518,
+      "sha256": "7f814837be85c3a41566214c3c41f844bcdad36e65a9e62b8872151d5383533b"
+    },
+    {
+      "id": "sina-03",
+      "role": "主参考",
+      "rooms": [
+        "客厅",
+        "阳台"
+      ],
+      "image_url": "https://wx4.sinaimg.cn/middle/006B4J4Agy1ibo193sihjj30mo0u67av.jpg",
+      "article_url": "https://www.sina.cn/news/detail/5281886017948285.html",
+      "publisher": "蓉城南瓜（新浪展示的微博认证房产博主）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "房产博主发布的现场照片；编辑历史未知",
+      "identity_evidence": "帖子正文明确“天览二期385平样板间”；无22栋01号房或A字样。客厅陈设与发布稿对应。",
+      "confidence": {
+        "project_385": "高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "黑色沙发背部褶皱与靠垫、窗边奶油沙发、深色落地玻璃框；显示近处园林。",
+      "same_scene_or_image": null,
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 518,
+      "height": 690,
+      "sha256": "764f4f207e4fdd3a3cea4b995e74d86443b77762fedb4b25110a5aaf09b7ccb0"
+    },
+    {
+      "id": "sina-04",
+      "role": "主参考",
+      "rooms": [
+        "客厅",
+        "阳台"
+      ],
+      "image_url": "https://wx2.sinaimg.cn/middle/006B4J4Agy1ibo19rt3u7j30u60mojxp.jpg",
+      "article_url": "https://www.sina.cn/news/detail/5281886017948285.html",
+      "publisher": "蓉城南瓜（新浪展示的微博认证房产博主）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "房产博主发布的现场照片；编辑历史未知",
+      "identity_evidence": "帖子正文明确“天览二期385平样板间”；无22栋01号房或A字样。客厅陈设与发布稿对应。",
+      "confidence": {
+        "project_385": "高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "奶油色沙发侧面、两把木框户外椅与深蓝灰矮桌，水景园林。",
+      "same_scene_or_image": null,
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 690,
+      "height": 518,
+      "sha256": "ca3f3757ac613b7c4b6eedd00cec94e9b79ae36643b2d2e3d179bc0184485631"
+    },
+    {
+      "id": "sina-05",
+      "role": "主参考",
+      "rooms": [
+        "客厅"
+      ],
+      "image_url": "https://wx1.sinaimg.cn/middle/006B4J4Agy1ibo19p4lljj30u60moafx.jpg",
+      "article_url": "https://www.sina.cn/news/detail/5281886017948285.html",
+      "publisher": "蓉城南瓜（新浪展示的微博认证房产博主）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "房产博主发布的现场照片；编辑历史未知",
+      "identity_evidence": "帖子正文明确“天览二期385平样板间”；无22栋01号房或A字样。客厅陈设与发布稿对应。",
+      "confidence": {
+        "project_385": "高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "宽角度定位黑沙发、奶油沙发、两把米色小椅、石材壁炉及展示架；白顶细线脚与空调百叶。",
+      "same_scene_or_image": null,
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 690,
+      "height": 518,
+      "sha256": "89efa106f241910e2aba2b1f91ea1cd56d6dd17096454346f857a08fe0230f26"
+    },
+    {
+      "id": "sina-06",
+      "role": "主参考",
+      "rooms": [
+        "主卧",
+        "主卧套间休闲区"
+      ],
+      "image_url": "https://wx4.sinaimg.cn/middle/006B4J4Agy1ibo197f9ymj30mo0u6q8y.jpg",
+      "article_url": "https://www.sina.cn/news/detail/5281886017948285.html",
+      "publisher": "蓉城南瓜（新浪展示的微博认证房产博主）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "房产博主发布的现场照片；房间身份由图像判读",
+      "identity_evidence": "帖子正文明确“天览二期385平样板间”；无22栋01号房或A字样。客厅陈设与发布稿对应。",
+      "confidence": {
+        "project_385": "中高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "主卧斜角：浅橡木鱼骨地板、米白线纹地毯、卡其软包高床头、烟熏琥珀台灯、深木格栅隔断及相邻休闲区。",
+      "same_scene_or_image": null,
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 518,
+      "height": 690,
+      "sha256": "d283e885120487041ccbdfb47a2ac95f10966a914771dec898c4790e0a48becd"
+    },
+    {
+      "id": "sina-07",
+      "role": "主参考",
+      "rooms": [
+        "主卧"
+      ],
+      "image_url": "https://wx1.sinaimg.cn/middle/006B4J4Agy1ibo1948rdtj30u60motf7.jpg",
+      "article_url": "https://www.sina.cn/news/detail/5281886017948285.html",
+      "publisher": "蓉城南瓜（新浪展示的微博认证房产博主）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "房产博主发布的现场照片；房间身份由图像判读",
+      "identity_evidence": "帖子正文明确“天览二期385平样板间”；无22栋01号房或A字样。客厅陈设与发布稿对应。",
+      "confidence": {
+        "project_385": "中高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "主卧宽景：乳米色矩形分缝墙板、菱形拉扣床头、赭棕床毯、黑细腿床尾凳、暖玻璃吊灯、全高玻璃窗。",
+      "same_scene_or_image": null,
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 690,
+      "height": 518,
+      "sha256": "01ef487db93b0c3bd51f7e6be686ede56946792618fe2e368bbbe22f98880c97"
+    },
+    {
+      "id": "sina-08",
+      "role": "主参考",
+      "rooms": [
+        "卫浴",
+        "主卫"
+      ],
+      "image_url": "https://wx1.sinaimg.cn/middle/006B4J4Agy1ibo199z25hj30u60mo46x.jpg",
+      "article_url": "https://www.sina.cn/news/detail/5281886017948285.html",
+      "publisher": "蓉城南瓜（新浪展示的微博认证房产博主）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "房产博主发布的现场照片；主卫身份由图像判读",
+      "identity_evidence": "帖子正文明确“天览二期385平样板间”；无22栋01号房或A字样。客厅陈设与发布稿对应。",
+      "confidence": {
+        "project_385": "中高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "窗下白色独立圆角浴缸、白灰金纹石材墙地、黑细框玻璃隔断、灰色框线柜、宽黑框镜、百叶及圆棕地毯。",
+      "same_scene_or_image": null,
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 690,
+      "height": 518,
+      "sha256": "633fcfb100d561a362248b7676770ba15bd07f0ac14e4c6a3ff9fcd2d012418a"
+    },
+    {
+      "id": "sina-09",
+      "role": "主参考",
+      "rooms": [
+        "玄关/走廊"
+      ],
+      "image_url": "https://wx2.sinaimg.cn/middle/006B4J4Agy1ibo19d1dgmj30mo0u60yn.jpg",
+      "article_url": "https://www.sina.cn/news/detail/5281886017948285.html",
+      "publisher": "蓉城南瓜（新浪展示的微博认证房产博主）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "房产博主发布的现场照片；确切走廊位置未定",
+      "identity_evidence": "帖子正文明确“天览二期385平样板间”；无22栋01号房或A字样。客厅陈设与发布稿对应。",
+      "confidence": {
+        "project_385": "中高",
+        "exact_385A_22_01": "中低"
+      },
+      "observation": "米色细枝纹墙布/板、白灰纹石材地、嵌入小射灯、尽头窄暖光展示柜和深木竖条；不能确定其为正式入户玄关。",
+      "same_scene_or_image": null,
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 518,
+      "height": 690,
+      "sha256": "de65f7f7f7aa1acd5d7ee548daa42a7a38589a4afa430e1bf0fe738f0507bc33"
+    },
+    {
+      "id": "leju-05",
+      "role": "同景出处交叉核对",
+      "rooms": [
+        "客厅",
+        "餐厅"
+      ],
+      "image_url": "https://ess.leju.com/common/photo/16-1-c8uxaq5CRv5bq7KRjuCm364bitasBEF2BwnPUz7CI7wplL3bLY04bvTMzdpImJU68q7zKxnSnB6nKh9U.jpg",
+      "article_url": "https://m.lejucaijing.com/news-7445299291088418651.html",
+      "publisher": "乐居财经（项目推广稿，非已确认的设计师原发）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "明确标注样板间实景合成图",
+      "identity_evidence": "文章同时介绍385和770；本图不单列户型。借助明确385的搜狐同图及新浪现场同景交叉归属，不能单凭文章标题确定。",
+      "confidence": {
+        "project_385": "中高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "对应sohu-385-view，低清出处版本。",
+      "same_scene_or_image": "sohu-385-view",
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 926,
+      "height": 618,
+      "sha256": "44ecc4f68f24dda60a1fb3d9aaac8fbf234809c4ae6fd6d36cba26be21b9623c"
+    },
+    {
+      "id": "leju-08",
+      "role": "同景出处交叉核对",
+      "rooms": [
+        "客厅"
+      ],
+      "image_url": "https://ess.leju.com/common/photo/16-1-BF72KW816AFUkex07lF91ZJspOnLMruvlPJVOhjyPkUBunGDiIKBReAsYEV3dk3xBt8O4PbSbMz1c7Tj.jpg",
+      "article_url": "https://m.lejucaijing.com/news-7445299291088418651.html",
+      "publisher": "乐居财经（项目推广稿，非已确认的设计师原发）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "明确标注样板间实景合成图",
+      "identity_evidence": "文章同时介绍385和770；本图不单列户型。借助明确385的搜狐同图及新浪现场同景交叉归属，不能单凭文章标题确定。",
+      "confidence": {
+        "project_385": "中高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "对应sohu-385-living，低清出处版本。",
+      "same_scene_or_image": "sohu-385-living",
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 896,
+      "height": 640,
+      "sha256": "6d6e6972637563dd5ef496561d1f93a888dfc38fb667e14c1599265314158559"
+    },
+    {
+      "id": "leju-09",
+      "role": "同景出处交叉核对",
+      "rooms": [
+        "厨房"
+      ],
+      "image_url": "https://ess.leju.com/common/photo/16-1-jSFyEVHvkUPwjbQBYx7kOceyEAOV27rnzdPd7hVwcDLTWKaaBJ1bhvuLGB7Im3uyk305aWCEFCkCwkZ7.jpg",
+      "article_url": "https://m.lejucaijing.com/news-7445299291088418651.html",
+      "publisher": "乐居财经（项目推广稿，非已确认的设计师原发）",
+      "source_identity": "第三方公开页面；本次未找到可确认版权授权的开发商/设计师原发母图",
+      "capture_type": "明确标注样板间实景图",
+      "identity_evidence": "文章同时介绍385和770；本图不单列户型。借助明确385的搜狐同图及新浪现场同景交叉归属，不能单凭文章标题确定。",
+      "confidence": {
+        "project_385": "中高",
+        "exact_385A_22_01": "中"
+      },
+      "observation": "对应sohu-385-kitchen，低清出处版本。",
+      "same_scene_or_image": "sohu-385-kitchen",
+      "rights": {
+        "license": "未发现明确允许再分发的开放许可",
+        "public_repo_allowed": false,
+        "usage": "仅本地建模内部参照；不能把照片或裁切纹理随公开仓库发布",
+        "copyright": "归相应摄影/设计/发布权利人；署名与链接不等于授权"
+      },
+      "width": 870,
+      "height": 622,
+      "sha256": "3a58597efd1bb5a13d69a0091219340020292fdaf0a590e87410a4cb48202224"
+    }
+  ],
+  "coverage": {
+    "客厅": "充分：高分辨宣传图与多个现场角度",
+    "餐厅": "高分辨全景及局部；家庭厅仅厨房尽端局部",
+    "主卧": "两张现场广角，房间判读明确但01/A未逐图认证",
+    "次卧": "缺少可靠对应实拍；不得从其他户型补齐为实拍还原",
+    "厨房": "一张高分辨与发布稿同图",
+    "卫浴": "一张主卫现场广角",
+    "玄关": "走廊一张，正式入户厅位置未证实"
+  },
+  "unresolved": [
+    "样板间实际楼栋、房号、楼层未由照片直接证明",
+    "A/B室内版本和镜像方向需继续对照平面图，不因颜色一致就确认全部墙体位置",
+    "竖向净高、吊顶厚度、门高、窗高不能从广角照片定量反推",
+    "两张宣传客厅图明确属于实景合成图；窗外景观不能作为实际楼层依据"
+  ],
+  "video_leads": [
+    {
+      "url": "https://jingxuan.douyin.com/m/video/7622508736322073587",
+      "title": "蔚蓝卡地亚天览二期385户型惊艳亮相",
+      "publisher": "二十先生",
+      "published": "2026-03-29",
+      "status": "仅页面标题与发布日期检索已证；未播放或下载视频，不作为逐房间证据",
+      "rights": "未验证再分发许可"
+    }
+  ],
+  "archive_note": "本文件仅保留公开来源与核验记录，不包含照片文件或纹理。"
+}

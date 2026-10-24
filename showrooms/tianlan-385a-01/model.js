@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { createMaterials, setBoxUVInMetres } from './materials.js?v=6c18ef822927';
-import { createExterior } from './exterior.js?v=6c18ef822927';
+import { createMaterials, setBoxUVInMetres } from './materials.js?v=b3122cd2ecbf';
+import { createExterior } from './exterior.js?v=b3122cd2ecbf';
 
 // LACADIERE Tianlan 385A, Building 22 / 01.
 // Plan tracing: x points east/right, z points south/down. Dimensions in metres.

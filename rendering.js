@@ -13,7 +13,7 @@ class InteriorSSAOPass extends SSAOPass {
     this.scene.traverse(object => {
       if (!object.isMesh || !object.visible) return;
       const materials = Array.isArray(object.material) ? object.material : [object.material];
-      if (materials.every(material => (material.transparent && material.opacity < .85) || material.alphaTest > .1)) {
+      if (materials.every(material => (material.transparent && material.opacity < .85) || material.transmission > .1 || material.alphaTest > .1)) {
         object.visible = false;
         this._visibilityCache.push(object);
       }
@@ -99,7 +99,7 @@ export function createShowroomRendering({ renderer, scene, camera, coarse = fals
     interiorLights.visible = walk;
     interiorLights.children.forEach(light => {
       light.intensity = evening ? light.userData.warmIntensity : light.userData.dayIntensity;
-      light.color.set(evening ? '#ffd8ab' : '#fff4df');
+      light.color.set(evening ? (light.userData.warmColor || '#ffd8ab') : (light.userData.dayColor || '#fff4df'));
     });
     lightMaterials.forEach((base, material) => {
       material.emissiveIntensity = base * (evening ? 1.8 : 1.0);
@@ -122,7 +122,7 @@ export function createShowroomRendering({ renderer, scene, camera, coarse = fals
     model.group.traverse(object => {
       if (!object.isMesh) return;
       const materials = Array.isArray(object.material) ? object.material : [object.material];
-      if (materials.every(material => material.transparent && material.opacity < .85)) object.castShadow = false;
+      if (materials.every(material => (material.transparent && material.opacity < .85) || material.transmission > .1)) object.castShadow = false;
       for (const material of materials) {
         for (const property of ['map', 'normalMap', 'roughnessMap', 'bumpMap']) {
           if (material[property]) { material[property].anisotropy = anisotropy; material[property].needsUpdate = true; }
@@ -148,6 +148,15 @@ export function createShowroomRendering({ renderer, scene, camera, coarse = fals
       light.rotation.x = -Math.PI / 2;
       light.userData.dayIntensity = preset.day;
       light.userData.warmIntensity = preset.warm;
+      interiorLights.add(light);
+    }
+    // Broad window spill supplies side-light on the leather and pale stone.
+    // These are presentation sources at the observed openings, not measured sky data.
+    for (const preset of model.windowLights || []) {
+      const light = new THREE.RectAreaLight('#e6eff3', preset.day, preset.width, preset.height);
+      light.position.set(...preset.position);
+      light.rotation.y = preset.yaw || 0;
+      light.userData = { dayIntensity: preset.day, warmIntensity: preset.warm, dayColor: '#e6eff3', warmColor: '#b7c9df' };
       interiorLights.add(light);
     }
     applyLighting();

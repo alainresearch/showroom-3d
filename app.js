@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/OrbitControls.js';
-import { createShowroomRendering } from './rendering.js?v=b3122cd2ecbf';
-import { moveWithCollision, safeSpawn } from './collision.js?v=b3122cd2ecbf';
-const buildId = 'b3122cd2ecbf';
+import { createShowroomRendering } from './rendering.js?v=60ddd529b0a5';
+import { moveWithCollision, safeSpawn } from './collision.js?v=60ddd529b0a5';
+const buildId = '60ddd529b0a5';
 
 const $ = id => document.getElementById(id);
 let renderer, scene, camera, controls, model, currentCase, graphics, ground;
@@ -125,7 +125,7 @@ function setMode(next, immediate=false) {
 function placeAt(room) {
   const spawn=safeSpawn(room,model,furnitureVisible);
   if(!spawn){toast('这个位置暂时无法站立，请选其他房间');return false;}
-  camera.position.set(spawn.x,eyeHeight,spawn.z);yaw=spawn.yaw||0;pitch=-.025;applyLook();
+  camera.position.set(spawn.x,eyeHeight,spawn.z);yaw=spawn.yaw||0;pitch=Number.isFinite(room.pitch)?room.pitch:-.025;applyLook();
   const index=model.rooms.findIndex(r=>r.id===room.id);
   setCaption(room.name||'入户前厅',room.description||'室内漫游',index+1);
   document.querySelectorAll('[data-room]').forEach(b=>b.classList.toggle('active',b.dataset.room===room.id));

@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/RoomEnvironment.js';
-import { moveWithCollision, safeSpawn } from './collision.js';
+import { moveWithCollision, safeSpawn } from './collision.js?v=__SHOWROOM_BUILD__';
+const buildId = '__SHOWROOM_BUILD__';
 
 const $ = id => document.getElementById(id);
 let renderer, scene, camera, controls, model, currentCase, sun, ambient, hemi;
@@ -18,7 +19,7 @@ function setCaption(name, hint, index = '') { $('room-caption').innerHTML = ''; 
 
 async function init() {
   try {
-    const response = await fetch('./showrooms.json');
+    const response = await fetch(`./showrooms.json?v=${buildId}`);
     if (!response.ok) throw new Error('空间目录未能加载');
     cases = await response.json();
     if (!cases.length) throw new Error('尚未添加空间');
@@ -69,7 +70,7 @@ async function init() {
 
 async function loadCase(meta) {
   currentCase=meta;
-  const module=await import(`./showrooms/${meta.id}/model.js`);
+  const module=await import(`./showrooms/${meta.id}/model.js?v=${buildId}`);
   if(model) {scene.remove(model.group);model.group.traverse(o=>{o.geometry?.dispose();if(o.material){for(const m of Array.isArray(o.material)?o.material:[o.material])m.dispose();}});}
   model=module.createApartment();
   model.walkable ||= [];

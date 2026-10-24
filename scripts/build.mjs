@@ -53,18 +53,27 @@ for (const directory of directories) {
   const metadata = JSON.parse(await readFile(join(sourceRoot, 'metadata.json'), 'utf8'));
   validateMetadata(metadata, slug);
   if (!(await stat(join(sourceRoot, 'model.js'))).isFile()) throw new Error(`${slug}: 缺少 model.js`);
-  showrooms.push({ slug, sourceRoot, metadata });
+  const modules = (await readdir(sourceRoot)).filter(name => /^[a-z][a-z0-9-]*\.js$/.test(name)).sort();
+  showrooms.push({ slug, sourceRoot, metadata, modules });
 }
 if (!showrooms.length) throw new Error('showrooms/ 下没有可构建的案例');
 const revision = createHash('sha256');
-for (const name of ['app.js', 'style.css', 'collision.js']) revision.update(await readFile(join(webRoot, name)));
+const webSources = (await readdir(webRoot)).filter(name => /\.(js|css|html)$/.test(name)).sort();
+for (const name of webSources) revision.update(name).update(await readFile(join(webRoot, name)));
 for (const entry of showrooms) {
   revision.update(JSON.stringify(entry.metadata));
-  revision.update(await readFile(join(entry.sourceRoot, 'model.js')));
+  for (const name of entry.modules) revision.update(name).update(await readFile(join(entry.sourceRoot, name)));
 }
 const buildId = revision.digest('hex').slice(0, 12);
+function versionModule(source) {
+  return source.replaceAll('__SHOWROOM_BUILD__', buildId).replace(
+    /(from\s*|import\s*\()\s*(['"])(\.\.?\/[^'"?]+\.js)\2/g,
+    (_, prefix, quote, path) => `${prefix}${quote}${path}?v=${buildId}${quote}`
+  );
+}
 
-// 只发布 web/ 与每个案例明确列出的两个文件；参考目录不会进入 dist。
+// Only public runtime JS modules and metadata are copied from a showroom.
+// Private photos, research documents and arbitrary subdirectories stay out.
 await rm(outputRoot, { recursive: true, force: true });
 await mkdir(outputRoot, { recursive: true });
 await cp(webRoot, outputRoot, {
@@ -74,15 +83,16 @@ await cp(webRoot, outputRoot, {
     return parts.every(part => !part.startsWith('.') && !['references', 'private', 'node_modules'].includes(part));
   }
 });
-for (const { slug, sourceRoot, metadata } of showrooms) {
+for (const { slug, sourceRoot, metadata, modules } of showrooms) {
   const destination = join(outputRoot, 'showrooms', slug);
   await mkdir(destination, { recursive: true });
-  await cp(join(sourceRoot, 'model.js'), join(destination, 'model.js'));
+  for (const name of modules) await writeFile(join(destination, name), versionModule(await readFile(join(sourceRoot, name), 'utf8')));
   await writeFile(join(destination, 'metadata.json'), `${JSON.stringify(metadata, null, 2)}\n`);
 }
 await writeFile(join(outputRoot, 'showrooms.json'), `${JSON.stringify(showrooms.map(item => item.metadata), null, 2)}\n`);
-const app = await readFile(join(outputRoot, 'app.js'), 'utf8');
-await writeFile(join(outputRoot, 'app.js'), app.replaceAll('__SHOWROOM_BUILD__', buildId));
+for (const name of webSources.filter(name => name.endsWith('.js'))) {
+  await writeFile(join(outputRoot, name), versionModule(await readFile(join(outputRoot, name), 'utf8')));
+}
 const html = await readFile(join(outputRoot, 'index.html'), 'utf8');
 await writeFile(join(outputRoot, 'index.html'), html.replace('href="./style.css"', `href="./style.css?v=${buildId}"`).replace('src="./app.js"', `src="./app.js?v=${buildId}"`));
 console.log(`已构建 ${showrooms.length} 个样板间 → dist/`);

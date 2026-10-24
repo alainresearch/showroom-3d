@@ -24,7 +24,7 @@
 
 ```js
 export function createApartment() {
-  return { group, ceilings, furniture, colliders, rooms, bounds, entry, metrics };
+  return { group, ceilings, furniture, colliders, rooms, bounds, entry, metrics, walkable, exterior };
 }
 ```
 
@@ -32,6 +32,8 @@ export function createApartment() {
 
 ## 后续资源
 
-目前构建仅复制每个案例的 `model.js` 与 `metadata.json`。新增纹理、GLB 等资源时，先确认可公开分发的权利，再扩展构建脚本的明确文件清单或公开资产目录，并同步更新加载路径与测试。不要把整个参考目录直接复制到发布包。
+构建复制每个案例顶层公开 `.js` 模块（文件名需以小写字母开头、只含小写字母/数字/连字符）及 `metadata.json`，并对模块引用写入统一版本号。新增纹理、GLB 等资源时，先确认可公开分发的权利，再扩展构建脚本的明确文件清单或公开资产目录，并同步更新加载路径与测试。不要把整个参考目录直接复制到发布包。
 
 私人参考可放在案例的 `references/private/`，但 `.gitignore` 只是防误提交措施，不能替代提交前检查。公开证据说明放在 `sources.md`，注明来源日期、图号、尺寸关系、推定方式和素材权利。
+
+`walkable` 是可行走地板矩形数组；`exterior` 是可选的窗外场景Group，应加入group但不计入室内碰撞。共享界面在俯览隐藏外景、漫游时显示。外景应自带室外基底，不能依赖俯览背景地面。

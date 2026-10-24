@@ -6,11 +6,15 @@
 
 ![天览385A三维俯览](docs/preview.png)
 
-当前是参照照片的第一版简化漫游模型。图纸标注建筑面积约 385㎡（含公摊），不等于模型地板面积。净高暂定 3.1 m；客餐厅、厨房、主卧、主卫已参考公开照片，次卧等仍含示意陈设，尚未完成全屋逐项验证。完整证据边界见 [证据与还原程度](docs/EVIDENCE_AND_FIDELITY.md)。
+![0.2客厅细化](docs/living-v02.png)
+
+当前为 **0.2 细化版**：补充了软包家具、PBR 材质、接触阴影，以及现场照片参照的水岸、树群和远处建筑。仍属于近似还原。图纸标注建筑面积约 385㎡（含公摊），不等于模型地板面积。净高暂定 3.1 m；客餐厅、厨房、主卧、主卫已参考公开照片，次卧等仍含示意陈设，尚未完成全屋逐项验证。完整证据边界见 [证据与还原程度](docs/EVIDENCE_AND_FIDELITY.md)。
 
 已核看 **14 张主要照片，另有 3 张同图出处版本**。现场照片与宣传合成图分别登记，照片不随公开代码分发。查看 [参考清单](showrooms/tianlan-385a-01/reference-manifest.json) 与 [逐房间还原笔记](showrooms/tianlan-385a-01/sources.md)。
 
 支持第一人称行走、墙体和家具碰撞、俯览、小地图、房间切换、家具显隐、光线演示、触屏摇杆。5 项自动检查覆盖几何数值、14 处安全传送点及有无家具时从入口到全部房间的连续步行路径。渲染与主要控件另做浏览器人工检查。
+
+详细变更见 [版本记录](docs/CHANGELOG.md)。
 
 ## 本地运行
 
@@ -33,13 +37,15 @@ npm test
 web/                         共享浏览器界面、交互与 Three.js vendor
 showrooms/<slug>/model.js     单个房型的空间、家具和碰撞模型
 showrooms/<slug>/metadata.json 公开标题、证据来源和假设
+showrooms/<slug>/materials.js 原创程序材质（可选）
+showrooms/<slug>/exterior.js  窗外布景（可选）
 showrooms/<slug>/sources.md   可公开的证据说明（如有）
 docs/                        扩充方法与还原标准
 scripts/build.mjs            零依赖静态构建
 dist/                        构建产物，不提交
 ```
 
-构建脚本复制 `web/` 及每个案例的 `model.js`、`metadata.json`，生成 `showrooms.json` 案例清单。私人参考、原始照片与 Blender 工程不进入发布包。增加房型的方法见 [添加样板间](docs/ADDING_A_SHOWROOM.md)。
+构建脚本复制 `web/` 及每个案例的 顶层公开 `.js` 模块与 `metadata.json`，生成 `showrooms.json` 案例清单。私人参考、原始照片与 Blender 工程不进入发布包。增加房型的方法见 [添加样板间](docs/ADDING_A_SHOWROOM.md)。
 
 ## 发布
 

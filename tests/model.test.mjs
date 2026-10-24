@@ -103,6 +103,7 @@ test('all model transforms, vertex positions and geometry bounds are finite', ()
   apartment.group.traverse(object => {
     const label = object.name || object.type;
     assert.ok(finite([...object.position.toArray(), ...object.quaternion.toArray(), ...object.scale.toArray(), ...object.matrixWorld.elements]), `${label}: non-finite transform`);
+    if (object.isInstancedMesh) assert.ok(finite(object.instanceMatrix.array), `${label}: non-finite instance transform`);
     if (!object.geometry || seen.has(object.geometry)) return;
     seen.add(object.geometry); meshCount++;
     const positions = object.geometry.getAttribute('position');

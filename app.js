@@ -78,7 +78,9 @@ async function loadCase(meta) {
   model.furniture.visible=furnitureVisible;
   const b=model.bounds,cx=(b.minX+b.maxX)/2,cz=(b.minZ+b.maxZ)/2;
   overviewTarget=new THREE.Vector3(cx-1,0,cz);
-  overviewPosition=new THREE.Vector3(cx+22,27,cz+27);
+  const fit=Math.max(1,1.5/camera.aspect);
+  overviewPosition=new THREE.Vector3(cx+22*fit,27*fit,cz+27*fit);
+  controls.maxDistance=Math.max(65,overviewPosition.distanceTo(overviewTarget)*1.3);
   populateUI(meta);
   setMode('overview',true);
   const url=new URL(location.href);url.searchParams.set('showroom',meta.id);history.replaceState(null,'',url);
@@ -109,12 +111,14 @@ function setMode(next, immediate=false) {
   $('walk-hint').hidden=next!=='walk';$('crosshair').hidden=next!=='walk';$('joystick').hidden=next!=='walk'||!coarse;
   if(next==='overview'){
     document.exitPointerLock?.();
+    camera.setViewOffset(innerWidth,innerHeight,innerWidth>700?-Math.min(110,innerWidth*.11):0,0,innerWidth,innerHeight);
     camera.fov=42;camera.updateProjectionMatrix();
     if(immediate){camera.position.copy(overviewPosition);controls.target.copy(overviewTarget);controls.update();}
     else transition={from:camera.position.clone(),to:overviewPosition.clone(),fromTarget:controls.target.clone(),toTarget:overviewTarget.clone(),start:performance.now(),duration:850};
     setCaption('全屋空间','拖动旋转 · 滚轮缩放');$('controls-hint').textContent='拖动旋转 / 滚轮缩放';
     document.querySelectorAll('[data-room]').forEach(b=>b.classList.remove('active'));
   } else {
+    camera.clearViewOffset();
     camera.fov=65;camera.updateProjectionMatrix();
     const room=model.rooms.find(r=>r.id==='living')||model.rooms[0]||model.entry;
     placeAt(room);
@@ -159,7 +163,7 @@ function bindEvents() {
   document.addEventListener('pointermove',e=>{if(mode!=='walk'||$('info-dialog').open)return;if(document.pointerLockElement===canvas){yaw-=e.movementX*.0025;pitch-=e.movementY*.0025;}else if(dragging&&e.target===canvas){yaw-=(e.clientX-lastPointer.x)*.004;pitch-=(e.clientY-lastPointer.y)*.004;lastPointer={x:e.clientX,y:e.clientY};}else return;pitch=THREE.MathUtils.clamp(pitch,-1.35,1.3);applyLook();});
   window.addEventListener('keydown',e=>{if(e.target.matches('input,select,textarea')||$('info-dialog').open)return;if(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();keys.add(e.code);if(e.repeat)return;if(e.code==='KeyV')setMode(mode==='walk'?'overview':'walk');if(e.code==='KeyR')$('reset-view').click();if(e.code==='KeyM')$('map-toggle').click();});
   window.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',clearMotion);document.addEventListener('visibilitychange',clearMotion);
-  window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+  window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;renderer.setSize(innerWidth,innerHeight);const b=model.bounds,cx=(b.minX+b.maxX)/2,cz=(b.minZ+b.maxZ)/2,fit=Math.max(1,1.5/camera.aspect);overviewPosition.set(cx+22*fit,27*fit,cz+27*fit);controls.maxDistance=Math.max(65,overviewPosition.distanceTo(overviewTarget)*1.3);if(mode==='overview')setMode('overview',true);else camera.updateProjectionMatrix();});
   canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();toast('图形上下文已暂停，请重新载入页面恢复');renderer.setAnimationLoop(null);});
   const joy=$('joystick');let joyId=null;
   function updateStick(e){const r=joy.getBoundingClientRect();let x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;const d=Math.hypot(x,y),max=32;if(d>max){x=x/d*max;y=y/d*max;}stick.x=x/max;stick.y=y/max;$('joystick-knob').style.transform=`translate(${x}px,${y}px)`;}

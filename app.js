@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/OrbitControls.js';
-import { createShowroomRendering } from './rendering.js?v=60ddd529b0a5';
-import { moveWithCollision, safeSpawn } from './collision.js?v=60ddd529b0a5';
-const buildId = '60ddd529b0a5';
+import { createShowroomRendering } from './rendering.js?v=1e968d398c9b';
+import { moveWithCollision, safeSpawn } from './collision.js?v=1e968d398c9b';
+const buildId = '1e968d398c9b';
 
 const $ = id => document.getElementById(id);
 let renderer, scene, camera, controls, model, currentCase, graphics, ground;

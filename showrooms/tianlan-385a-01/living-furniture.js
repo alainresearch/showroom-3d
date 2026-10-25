@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { setBoxUVInMetres } from './materials.js?v=60ddd529b0a5';
+import { setBoxUVInMetres } from './materials.js?v=1e968d398c9b';
 
 // Shape studies from the published 385 m² sample-room photographs. These are
 // original meshes, not manufacturer CAD, scans, or photograph-derived textures.

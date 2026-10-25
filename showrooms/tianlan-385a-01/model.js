@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import { createMaterials, setBoxUVInMetres } from './materials.js?v=60ddd529b0a5';
-import { createExterior } from './exterior.js?v=60ddd529b0a5';
-import { addLivingFurniture } from './living-furniture.js?v=60ddd529b0a5';
-import { addKitchenDetails, addSalonDisplay, createSalonArtMaterials } from './interior-details.js?v=60ddd529b0a5';
+import { createMaterials, setBoxUVInMetres } from './materials.js?v=1e968d398c9b';
+import { createExterior } from './exterior.js?v=1e968d398c9b';
+import { addLivingFurniture } from './living-furniture.js?v=1e968d398c9b';
+import { addKitchenDetails, addSalonDisplay, createSalonArtMaterials } from './interior-details.js?v=1e968d398c9b';
 
 // LACADIERE Tianlan 385A, Building 22 / 01.
 // Plan tracing: x points east/right, z points south/down. Dimensions in metres.
@@ -291,13 +291,15 @@ export function createApartment() {
   wall('x',2.8,11.4,17.3,{doors:[[12.25,13.85,2.5]]});
   wall('z',15.35,2.8,7.55);wall('z',11.4,6.45,7.55);
   wall('x',7.55,11.15,15.65,{doors:[[12.4,14.35,2.6]]});
-  // North bedrooms, with two suites and one distinct bedroom.
+  // Two northern suites and an independent study confirmed by the user on site.
   wall('x',6.45,0,11.1,{windows:[[1.35,3.65,.3,2.78],[4.8,7.15,.3,2.78],[8.25,10.7,.3,2.78]]});
   wall('z',0,6.45,14.1,{windows:[[12.2,12.85,1.2,2.7]]});
   wall('z',4.1,6.45,12.7);wall('z',7.75,6.45,10.95);wall('z',11.1,6.45,12.7);
   wall('x',12.7,2.55,6.2,{doors:[[2.8,3.8],[4.3,5.3]]});
   wall('x',12.7,6.2,11.1,{doors:[[9.92,10.92]]});
   wall('x',11.35,0,2.55);wall('z',2.55,11.35,14.1,{doors:[[11.48,12.45,2.3]]});wall('x',14.1,0,3.55);
+  // The adjacent bathroom opens only into the middle suite on its west side.
+  // Its north/east walls separate it from the study and the study's entrance.
   wall('x',10.95,6.2,9.65);wall('z',6.2,10.95,12.7,{doors:[[11.15,12.15,2.3]]});wall('z',9.65,10.95,12.7);
   // Corridor, master suite and guest bathroom.
   wall('x',14.1,3.55,11.1,{doors:[[5.1,6.3],[7.95,8.9]]});
@@ -339,7 +341,28 @@ export function createApartment() {
   bed(1.65,9.05,1.9,2.1,Math.PI/2,'北西套房 · 双人床');
   cabinet(1.45,10.98,2.45,.52,2.3);chair(3.15,7.35,-.5);cyl(2.8,.47,7.35,.24,.05,materials.stone);cyl(2.8,.23,7.35,.06,.46,materials.bronze);
   bed(6.32,8.55,1.8,2.05,-Math.PI/2,'北中套房 · 双人床');cabinet(6.95,10.54,1.45,.55,2.35);
-  bed(9.0,8.55,1.75,2.05,Math.PI/2,'北东独立卧室 · 双人床');cabinet(8.85,10.56,1.75,.5,2.35);
+  // Room use and separate access confirmed by the user's sample-room visit.
+  // Desk, shelving and objects are indicative, pending photographs of this room.
+  const study=named('北东书房 · 示意书桌与书柜');
+  softBox(9.23,.755,8.25,1.85,.075,.82,.035,materials.walnut,study);
+  for(const x of [8.48,9.98])for(const z of [7.97,8.53])box(x,.36,z,.055,.72,.055,materials.darkWood,study);
+  box(8.61,.54,8.25,.34,.35,.60,materials.walnut,study);
+  solid(9.23,8.25,1.85,.82);
+  chair(9.23,9.17,Math.PI,study,1,materials.caramel);solid(9.23,9.17,.62,.66);
+  box(9.38,.802,8.26,.48,.025,.34,materials.dark,study);
+  const screen=box(9.38,.96,8.08,.48,.30,.025,materials.dark,study);screen.rotation.x=-.12;
+  box(8.88,.803,8.38,.29,.012,.34,materials.linen,study);
+  cyl(9.92,.815,8.04,.09,.025,materials.gold,study);cyl(9.92,1.01,8.04,.009,.38,materials.gold,study);
+  cyl(9.92,1.19,8.04,.15,.08,materials.linen,study,.10);
+  // Open bookshelf against the west wall; the entrance strip stays unobstructed.
+  box(7.93,1.18,8.62,.05,2.36,2.8,materials.walnut,study);
+  for(const z of [7.22,8.62,10.02])box(8.09,1.18,z,.36,2.36,.035,materials.walnut,study);
+  for(const y of [.10,.62,1.14,1.66,2.18,2.36])box(8.09,y,8.62,.36,.035,2.8,materials.walnut,study);
+  for(const [row,y] of [.12,.64,1.16,1.68].entries())for(let i=0;i<10;i++) {
+    const z=7.38+i*.25,h=.22+(i%3)*.045;
+    box(8.12,y+h/2,z,.23,h,.065+(i%2)*.025,[materials.linen,materials.khaki,materials.darkWood][(i+row)%3],study);
+  }
+  solid(8.09,8.62,.36,2.8);
   counter(.8,11.78,.9,.48);basin(.8,11.78);toilet(.6,12.55,-Math.PI/2);shower(1.88,13.42,1.1,1.05);
   counter(6.95,12.34,1.1,.5);basin(6.95,12.34);toilet(7.85,12.28,Math.PI);shower(9.02,11.6,1.02,1.05);
   // Main suite: separately accessible bath, dressing rooms and sleeping room.
@@ -423,7 +446,7 @@ export function createApartment() {
     {id:'utility',name:'家政空间',x:13.4,z:1.85,yaw:0,description:'北侧家政区与独立保姆 / 储藏间。'},
     {id:'bedroom-1',name:'北西套房',x:3.25,z:10.05,yaw:Math.PI/2,description:'独立套房，保留南侧套内卫生间。'},
     {id:'bedroom-2',name:'北中套房',x:4.75,z:10.6,yaw:-.75,description:'独立套房，卫生间在卧室东南侧。'},
-    {id:'bedroom-3',name:'北东卧室',x:10.5,z:11.6,yaw:0,description:'保留原户型独立卧室与入口，未与相邻卧室打通。'},
+    {id:'study',name:'书房',x:10.5,z:11.6,yaw:0,description:'独立入口 · 不通卫生间 · 陈设为示意'},
     {id:'master',name:'主卧套房',x:3.75,z:22.6,yaw:1.0,description:'西南主卧连通衣帽区、主卫与南侧阳台。'},
     {id:'dressing',name:'衣帽间',x:6.25,z:23.1,yaw:0,description:'主卧东侧步入式衣帽间。'},
     {id:'master-bath',name:'主卫',x:2.65,z:16.45,yaw:Math.PI/2,description:'双台盆、浴缸与独立淋浴 / 卫生区。'},
@@ -431,9 +454,9 @@ export function createApartment() {
   ];
   const bounds={minX:-.15,maxX:20.05,minZ:-.15,maxZ:26.55};
   const entry={x:17.05,z:13.85,yaw:Math.PI/2};
-  const metrics={planWidth:19.9,planDepth:26.4,height:H,advertisedArea:385,bedrooms:4,bathrooms:4,ceilingHeightAssumed:true,source:'公开转载的开发商版式户型图：天览385A 22栋01号房，横向4100+3650+3750+8400毫米标定',notes:'平面为户型图描摹，局部按图估读；净高3.10米为演示假设。客餐厅、厨房与主卧材质参照已核看的385㎡样板间公开照片，家具尺寸与无法核验的房间陈设仍为近似表达；不能据展示照片断定楼层或窗外景观。建筑面积385㎡为原图宣传口径，不等同模型净使用面积。公摊电梯、楼梯及图旁可变空间示意未建为居室。',openings};
+  const metrics={planWidth:19.9,planDepth:26.4,height:H,advertisedArea:385,bedrooms:3,studies:1,bathrooms:4,ceilingHeightAssumed:true,source:'公开转载的开发商版式户型图：天览385A 22栋01号房，横向4100+3650+3750+8400毫米标定',notes:'平面为户型图描摹，局部按图估读；净高3.10米为演示假设。客餐厅、厨房与主卧材质参照已核看的385㎡样板间公开照片，家具尺寸与无法核验的房间陈设仍为近似表达；不能据展示照片断定楼层或窗外景观。建筑面积385㎡为原图宣传口径，不等同模型净使用面积。公摊电梯、楼梯及图旁可变空间示意未建为居室。',openings};
   group.userData.materials=materials;
-  group.userData.provenance={geometry:'public-floor-plan-not-surveyed',furniture:'photo-referenced-and-interpretive-replaceable',verticalDimensions:'assumed',photoReference:'385sqm sample room living/dining/kitchen: published photos; master suite: medium-confidence same-size sample room photos; north bedrooms: unverified decor'};
+  group.userData.provenance={geometry:'public-floor-plan-not-surveyed',furniture:'photo-referenced-and-interpretive-replaceable',verticalDimensions:'assumed',photoReference:'385sqm sample room living/dining/kitchen: published photos; master suite: medium-confidence same-size sample room photos; north bedrooms: unverified decor; northeast study use and bathroom separation: user site-visit confirmation 2026-10-25, furniture indicative'};
   // Batch opaque meshes inside each named component. This preserves room pieces,
   // material controls and ceiling/furniture visibility while reducing draw calls.
   function batch(root) {

@@ -1,0 +1,36 @@
+{
+  "id": "tianlan-385a-quiet-luxury",
+  "title": "静奢雅居",
+  "subtitle": "天览385A · André Fu 参考方案",
+  "areaLabel": "约385㎡ 建筑面积",
+  "layoutLabel": "3 厅 · 3 卧 · 1 书房",
+  "location": "成都 · 蔚蓝卡地亚·天览",
+  "description": "以香港奕居与京都三井酒店为公开案例参考，探索东方气质与现代豪华的独立住宅方案：低矮弧线软包、暖灰石材、温润木作、素色织物与柔和灯光。",
+  "sourceSummary": "户型与独立书房关系沿用已确认模型；设计方向参考 André Fu Studio 的公开项目和家具资料。本案为独立原创概念建模，并非 André Fu 或其工作室设计的天览方案。",
+  "assumptions": [
+    "原样板间与上一版美式方案分别保留；本案是新的独立装修设想。",
+    "户型、窗门、净高等沿用原案例的现有依据及未实测假设。",
+    "北东房间为独立书房，不与卫生间直接连通。",
+    "家具、饰面和照明为概念设计，不是施工或品牌采购模型。",
+    "参考项目照片仅作本地分析，不作为纹理或发布资源。"
+  ],
+  "sources": [
+    {
+      "label": "公开参考文章及 22 栋 01、385A 户型图（搜狐）",
+      "url": "https://www.sohu.com/a/1007897925_121798391"
+    },
+    {
+      "label": "主参考 · The Upper House · André Fu Studio",
+      "url": "https://andrefustudio.com/project/the-upper-house/"
+    },
+    {
+      "label": "材质与东方气质参考 · HOTEL THE MITSUI KYOTO",
+      "url": "https://andrefustudio.com/project/hotel-the-mitsui/"
+    },
+    {
+      "label": "曲线与尺度参考 · Curve Sofa · André Fu Living",
+      "url": "https://andrefuliving.com/product/curve-sofa-fabric/"
+    }
+  ],
+  "startRoom": "living"
+}

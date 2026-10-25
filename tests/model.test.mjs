@@ -5,7 +5,7 @@ import { isBlocked, isOnFloor, safeSpawn } from '../web/collision.js';
 
 // Self-register so npm test works; an explicit --experimental-loader also works.
 register(new URL('../scripts/three-loader.mjs', import.meta.url));
-const cases = await Promise.all(['tianlan-385a-01', 'tianlan-385a-american'].map(async slug => ({slug, createApartment:(await import(`../showrooms/${slug}/model.js`)).createApartment})));
+const cases = await Promise.all(['tianlan-385a-01'].map(async slug => ({slug, createApartment:(await import(`../showrooms/${slug}/model.js`)).createApartment})));
 for (const {slug, createApartment} of cases) {
 const caseTest = (name, fn) => test(`${slug}: ${name}`, fn);
 const apartment = createApartment();

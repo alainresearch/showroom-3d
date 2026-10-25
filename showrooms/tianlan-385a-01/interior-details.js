@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { setBoxUVInMetres } from './materials.js?v=1e968d398c9b';
+import { setBoxUVInMetres } from './materials.js?v=39a1f44f4e17';
 
 // Original geometry reconstructed from observed sample-room details. Dimensions
 // of fittings are estimates; this module never changes the traced wall layout.

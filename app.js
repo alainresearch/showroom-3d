@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/OrbitControls.js';
-import { createShowroomRendering } from './rendering.js?v=1e968d398c9b';
-import { moveWithCollision, safeSpawn } from './collision.js?v=1e968d398c9b';
-const buildId = '1e968d398c9b';
+import { createShowroomRendering } from './rendering.js?v=39a1f44f4e17';
+import { moveWithCollision, safeSpawn } from './collision.js?v=39a1f44f4e17';
+const buildId = '39a1f44f4e17';
 
 const $ = id => document.getElementById(id);
 let renderer, scene, camera, controls, model, currentCase, graphics, ground;
@@ -12,6 +12,7 @@ const keys = new Set(), stick = {x:0,y:0}, eyeHeight = 1.65;
 const coarse = matchMedia('(pointer:coarse)').matches;
 const mapCanvas = $('map'), mapCtx = mapCanvas.getContext('2d');
 let overviewPosition, overviewTarget, cases = [];
+let caseLoadGeneration = 0;
 
 function toast(message) { $('toast').textContent = message; $('toast').classList.add('show'); clearTimeout(toastTimeout); toastTimeout = setTimeout(() => $('toast').classList.remove('show'), 3500); }
 function clearMotion() { keys.clear(); stick.x = stick.y = 0; dragging = false; $('joystick-knob').style.transform = ''; }
@@ -58,8 +59,11 @@ async function init() {
 }
 
 async function loadCase(meta) {
-  currentCase=meta;
+  const generation = ++caseLoadGeneration;
   const module=await import(`./showrooms/${meta.id}/model.js?v=${buildId}`);
+  // Rapid variant changes must not let an older import replace the selected room.
+  if(generation!==caseLoadGeneration)return;
+  currentCase=meta;
   if(model) {scene.remove(model.group);model.group.traverse(o=>{o.geometry?.dispose();if(o.material){for(const m of Array.isArray(o.material)?o.material:[o.material])m.dispose();}});}
   model=module.createApartment();
   model.walkable ||= [];

@@ -165,3 +165,19 @@ for (const includeFurniture of [false, true]) {
     assert.deepEqual(failures, [], `Disconnected rooms ${mode}:\n${failures.join('\n')}`);
   });
 }
+
+
+test('study has separate corridor access and no direct bathroom connection', () => {
+  const study = apartment.rooms.find(room => room.id === 'study');
+  assert.ok(study, 'the northeastern independent room is a study');
+  assert.equal(apartment.metrics.bedrooms, 3);
+  assert.equal(apartment.metrics.studies, 1);
+  // Both shared boundaries must remain closed, with furniture hidden as well.
+  for (let x = 7.9; x <= 9.5; x += .1) {
+    assert.equal(clearSegment({x,z:10.6},{x,z:11.3},false), false, 'study must not open through bathroom north wall');
+  }
+  for (let z = 11.15; z <= 12.5; z += .1) {
+    assert.equal(clearSegment({x:9.3,z},{x:10.0,z},false), false, 'study entrance must not open through bathroom east wall');
+  }
+  assert.equal(clearSegment({x:10.42,z:12.35},{x:10.42,z:13.05},true), true, 'study keeps its independent public-corridor doorway');
+});

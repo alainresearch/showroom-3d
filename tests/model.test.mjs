@@ -5,7 +5,9 @@ import { isBlocked, isOnFloor, safeSpawn } from '../web/collision.js';
 
 // Self-register so npm test works; an explicit --experimental-loader also works.
 register(new URL('../scripts/three-loader.mjs', import.meta.url));
-const { createApartment } = await import('../showrooms/tianlan-385a-01/model.js');
+const cases = await Promise.all(['tianlan-385a-01', 'tianlan-385a-american'].map(async slug => ({slug, createApartment:(await import(`../showrooms/${slug}/model.js`)).createApartment})));
+for (const {slug, createApartment} of cases) {
+const caseTest = (name, fn) => test(`${slug}: ${name}`, fn);
 const apartment = createApartment();
 const STEP = 0.15;
 const RADIUS = 0.19;
@@ -96,7 +98,7 @@ function blockedDoorways(includeFurniture) {
   }).map(door => `${door.axis} fixed=${door.fixed.toFixed(2)} opening=${door.start.toFixed(2)}..${door.end.toFixed(2)}`);
 }
 
-test('all model transforms, vertex positions and geometry bounds are finite', () => {
+caseTest('all model transforms, vertex positions and geometry bounds are finite', () => {
   let meshCount = 0;
   apartment.group.updateMatrixWorld(true);
   const seen = new Set();
@@ -123,7 +125,7 @@ test('all model transforms, vertex positions and geometry bounds are finite', ()
 
 for (const includeFurniture of [false, true]) {
   const mode = includeFurniture ? 'with furniture' : 'without furniture';
-  test(`all 14 rooms have safe teleport destinations ${mode}`, () => {
+  caseTest(`all 14 rooms have safe teleport destinations ${mode}`, () => {
     assert.equal(apartment.rooms.length, 14);
     assert.equal(new Set(apartment.rooms.map(room => room.id)).size, 14, 'room ids must be unique');
     for (const room of apartment.rooms) {
@@ -135,7 +137,7 @@ for (const includeFurniture of [false, true]) {
     }
   });
 
-  test(`entry has a continuous walking route to all 14 room destinations ${mode}`, t => {
+  caseTest(`entry has a continuous walking route to all 14 room destinations ${mode}`, t => {
     assert.ok(validAt(apartment.entry.x, apartment.entry.z, includeFurniture), `entry itself is blocked: ${coordinate(apartment.entry)}`);
     const grid = makeGrid(includeFurniture);
     const start = grid.nearest(apartment.entry);
@@ -167,7 +169,7 @@ for (const includeFurniture of [false, true]) {
 }
 
 
-test('study has separate corridor access and no direct bathroom connection', () => {
+caseTest('study has separate corridor access and no direct bathroom connection', () => {
   const study = apartment.rooms.find(room => room.id === 'study');
   assert.ok(study, 'the northeastern independent room is a study');
   assert.equal(apartment.metrics.bedrooms, 3);
@@ -181,3 +183,5 @@ test('study has separate corridor access and no direct bathroom connection', () 
   }
   assert.equal(clearSegment({x:10.42,z:12.35},{x:10.42,z:13.05},true), true, 'study keeps its independent public-corridor doorway');
 });
+
+}
